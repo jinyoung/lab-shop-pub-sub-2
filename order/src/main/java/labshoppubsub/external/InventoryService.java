@@ -12,5 +12,5 @@ import org.springframework.web.bind.annotation.GetMapping;
 )
 public interface InventoryService {
     @GetMapping(path = "/inventories/inventoryinfo")
-    public List<Inventory> inventoryinfo(InventoryInfoQuery query);
+    public List<Inventory> inventoryInfo(InventoryInfoQuery query);
 }

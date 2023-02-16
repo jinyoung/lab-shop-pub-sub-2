@@ -1,12 +1,18 @@
 package labshoppubsub.external;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
 public class InventoryServiceImpl implements InventoryService {
 
-    public Inventory inventoryinfo(InventoryInfoQuery query) {
+    public List<Inventory> inventoryInfo(InventoryInfoQuery query) {
         Inventory inventory = new Inventory();
-        return inventory;
+
+        List<Inventory> list = new ArrayList<Inventory>();
+        list.add(inventory);
+
+        return list;
     }
 }

@@ -3,6 +3,9 @@ package labshoppubsub.domain;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+
+import org.springframework.context.ApplicationContext;
+
 import labshoppubsub.OrderApplication;
 import labshoppubsub.domain.OrderPlaced;
 import lombok.Data;

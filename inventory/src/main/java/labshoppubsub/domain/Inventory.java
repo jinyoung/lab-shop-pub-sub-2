@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.*;
 import labshoppubsub.InventoryApplication;
 import lombok.Data;
+import org.springframework.context.ApplicationContext;
 
 @Entity
 @Table(name = "Inventory_table")

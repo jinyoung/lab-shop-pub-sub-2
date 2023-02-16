@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
     fallback = InventoryServiceImpl.class
 )
 public interface InventoryService {
-    @GetMapping(path = "/inventories/inventoryinfo")
-    public List<Inventory> inventoryinfo(InventoryInfoQuery query);
+    @GetMapping(path = "/inventories")
+    public List<Inventory> getStock(GetStockQuery query);
 }

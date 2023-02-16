@@ -2,7 +2,7 @@
 
     <v-data-table
         :headers="headers"
-        :items="inventoryInfo"
+        :items="getStock"
         :items-per-page="5"
         class="elevation-1"
     ></v-data-table>
@@ -13,7 +13,7 @@
     const axios = require('axios').default;
 
     export default {
-        name: 'InventoryInfoView',
+        name: 'GetStockView',
         props: {
             value: Object,
             editMode: Boolean,
@@ -23,14 +23,14 @@
             headers: [
                 { text: "id", value: "id" },
             ],
-            inventoryInfo : [],
+            getStock : [],
         }),
           async created() {
-            var temp = await axios.get(axios.fixUrl('/inventoryInfos'))
+            var temp = await axios.get(axios.fixUrl('/getStocks'))
 
-            temp.data._embedded.inventoryInfos.map(obj => obj.id=obj._links.self.href.split("/")[obj._links.self.href.split("/").length - 1])
+            temp.data._embedded.getStocks.map(obj => obj.id=obj._links.self.href.split("/")[obj._links.self.href.split("/").length - 1])
 
-            this.inventoryInfo = temp.data._embedded.inventoryInfos;
+            this.getStock = temp.data._embedded.getStocks;
         },
         methods: {
         }

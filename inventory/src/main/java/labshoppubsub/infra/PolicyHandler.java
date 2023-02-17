@@ -38,23 +38,23 @@ public class PolicyHandler {
           */
     }
 
-    @StreamListener(
-        value = KafkaProcessor.INPUT,
-        condition = "headers['type']=='OrderPlaced'"
-    )
-    public void wheneverOrderPlaced_DecreaseStock(
-        @Payload OrderPlaced orderPlaced,
-        @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment,
-        @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) byte[] messageKey
-    ) {
-        OrderPlaced event = orderPlaced;
-        System.out.println(
-            "\n\n##### listener DecreaseStock : " + orderPlaced + "\n\n"
-        );
+    // @StreamListener(
+    //     value = KafkaProcessor.INPUT,
+    //     condition = "headers['type']=='OrderPlaced'"
+    // )
+    // public void wheneverOrderPlaced_DecreaseStock(
+    //     @Payload OrderPlaced orderPlaced,
+    //     @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment,
+    //     @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) byte[] messageKey
+    // ) {
+    //     OrderPlaced event = orderPlaced;
+    //     System.out.println(
+    //         "\n\n##### listener DecreaseStock : " + orderPlaced + "\n\n"
+    //     );
 
-        Inventory.decreaseStock(event);
+    //     Inventory.decreaseStock(event);
 
-        // Manual Offset Commit //
-        acknowledgment.acknowledge();
-    }
+    //     // Manual Offset Commit //
+    //     acknowledgment.acknowledge();
+    // }
 }

@@ -28,7 +28,7 @@ public class Order {
     private Double amount;
 
     @PostPersist
-    public void onPostPersist() {
+    public void onPostPersist() throws OutOfStock{
         /** TODO: Get request to Inventory        */
         labshoppubsub.external.GetStockQuery getStockQuery = new labshoppubsub.external.GetStockQuery();
 
@@ -38,13 +38,15 @@ public class Order {
         labshoppubsub.external.Inventory inventory = 
             inventoryService.getStock( Long.valueOf(getProductId()) );
 
-        if(inventory.getStock() < getQty()) throw new RuntimeException("Out of stock!");
+        if(inventory.getStock() < getQty()) throw new OutOfStock();
 
         OrderPlaced orderPlaced = new OrderPlaced(this);
         orderPlaced.publishAfterCommit();
         /** TODO:  REST API Call to Inventory        */
         labshoppubsub.external.UpdateStockCommand updateStockCommand = new labshoppubsub.external.UpdateStockCommand();
-           applicationContext().getBean(labshoppubsub.external.InventoryService.class)
+        updateStockCommand.setQty(getQty().longValue());
+
+        applicationContext().getBean(labshoppubsub.external.InventoryService.class)
            .updateStock(Long.valueOf(getProductId()), updateStockCommand);
 
 

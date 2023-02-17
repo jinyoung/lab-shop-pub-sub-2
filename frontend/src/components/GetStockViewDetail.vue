@@ -2,7 +2,7 @@
 
     <v-card outlined>
         <v-card-title>
-            InventoryInfo # {{$route.params.id }}
+            GetStock # {{$route.params.id }}
         </v-card-title>
 
         <v-card-text>
@@ -15,7 +15,7 @@
   const axios = require('axios').default;
 
   export default {
-    name: 'InventoryInfoViewDetail',
+    name: 'GetStockViewDetail',
     props: {
       value: Object,
     },
@@ -24,7 +24,7 @@
     }),
     async created() {
       var params = this.$route.params;
-      var temp = await axios.get(axios.fixUrl('/inventoryInfos/' + params.id))
+      var temp = await axios.get(axios.fixUrl('/getStocks/' + params.id))
 
       this.item = temp.data;
 

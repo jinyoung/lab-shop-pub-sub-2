@@ -4,4 +4,4 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class InventoryInfoQuery {}
+public class GetStockQuery {}

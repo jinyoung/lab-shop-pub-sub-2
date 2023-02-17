@@ -68,8 +68,7 @@ logging:
 
 api:
   url:
-    order: localhost:8081
-
+    inventory: localhost:8082
 
 server:
   port: 8081

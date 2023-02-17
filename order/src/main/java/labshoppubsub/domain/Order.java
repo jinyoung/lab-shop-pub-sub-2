@@ -3,16 +3,16 @@ package labshoppubsub.domain;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
-
-import org.springframework.context.ApplicationContext;
-
 import labshoppubsub.OrderApplication;
 import labshoppubsub.domain.OrderPlaced;
+import labshoppubsub.external.*;
 import lombok.Data;
+import org.springframework.context.ApplicationContext;
 
 @Entity
 @Table(name = "Order_table")
 @Data
+//<<< DDD / Aggregate Root
 public class Order {
 
     @Id
@@ -29,14 +29,25 @@ public class Order {
 
     @PostPersist
     public void onPostPersist() {
-        // Get request from Inventory
-        labshoppubsub.external.InventoryInfoQuery inventoryInfoQuery = new labshoppubsub.external.InventoryInfoQuery();
-        applicationContext()
-            .getBean(labshoppubsub.external.InventoryService.class)
-            .inventoryInfo(inventoryInfoQuery);
+        /** TODO: Get request to Inventory        */
+        labshoppubsub.external.GetStockQuery getStockQuery = new labshoppubsub.external.GetStockQuery();
+
+        labshoppubsub.external.InventoryService inventoryService = applicationContext().getBean(labshoppubsub.external.InventoryService.class);
+
+
+        labshoppubsub.external.Inventory inventory = 
+            inventoryService.getStock( Long.valueOf(getProductId()) );
+
+        if(inventory.getStock() < getQty()) throw new RuntimeException("Out of stock!");
 
         OrderPlaced orderPlaced = new OrderPlaced(this);
         orderPlaced.publishAfterCommit();
+        /** TODO:  REST API Call to Inventory        */
+        labshoppubsub.external.UpdateStockCommand updateStockCommand = new labshoppubsub.external.UpdateStockCommand();
+           applicationContext().getBean(labshoppubsub.external.InventoryService.class)
+           .updateStock(Long.valueOf(getProductId()), updateStockCommand);
+
+
     }
 
     public static OrderRepository repository() {
@@ -49,3 +60,4 @@ public class Order {
         return OrderApplication.applicationContext;
     }
 }
+//>>> DDD / Aggregate Root
